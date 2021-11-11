@@ -2,6 +2,7 @@ import React from 'react';
 import  { SafeAreaView } from 'react-native';
 import Main from './src/components/Main';
 import RepositoryList from './src/components/RepositoryList';
+import { Provider as PaperProvider } from 'react-native-paper';
 //mport RepositoryItem from './src/components/RepositoryItem';
 
 
@@ -58,14 +59,12 @@ const App = () => {
 
 
   return (
+      <PaperProvider>   
     <SafeAreaView>
     <Main />
-    <RepositoryList 
-   
-
-      />
-      
+    <RepositoryList  />
     </SafeAreaView>
+    </PaperProvider>
   );
   
 };

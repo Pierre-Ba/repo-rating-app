@@ -2,7 +2,7 @@ import React from 'react';
 import Constants from 'expo-constants';
 import { StyleSheet, View } from 'react-native';
 import MyText from './Text';
-console.log('MY TEXT: ', MyText);
+
 
 const styles = StyleSheet.create({
     container: {
