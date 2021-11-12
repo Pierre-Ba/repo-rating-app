@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
   },
 });
 
+//'https://avatars2.githubusercontent.com/u/4060187?v=4'
+
 const repositories = [
   {
     id: 'jaredpalmer.formik',

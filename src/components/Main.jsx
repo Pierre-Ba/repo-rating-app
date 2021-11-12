@@ -1,7 +1,8 @@
 import React from 'react';
 import Constants from 'expo-constants';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MyText from './Text';
+import AppBar from './AppBar';
 
 
 const styles = StyleSheet.create({
@@ -15,14 +16,9 @@ const styles = StyleSheet.create({
 
 const Main = () => {
     return (
-        <View style={styles.container}>
-            <MyText>Simple text</MyText>
-            <MyText style={{ paddingBottom: 10 }}>Text with custom style</MyText>
-      <MyText fontWeight="bold" fontSize="subheading">
-        Bold subheading
-      </MyText>
-      <MyText color="textSecondary">Text with secondary color</MyText>
-        </View>
+        
+            <AppBar />
+        
     );
 };
 
