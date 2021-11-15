@@ -4,6 +4,14 @@ import { Button, Card } from 'react-native-paper'
 
 
 const RepositoryItem = ({ item }) => {
+
+    function kFormatter(num) {
+        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+    }
+
+    const stars = kFormatter(item.stargazersCount)
+    const forks = kFormatter(item.forksCount)
+
     const styles = StyleSheet.create({
         
         container: {
@@ -80,7 +88,7 @@ const RepositoryItem = ({ item }) => {
              <View style={styles.statsContainer}>
               <View style={styles.uniqueStatContainer}>
                   <Text>
-                      {item.stargazersCount}
+                      {stars}
                   </Text>
                   <Text>
                       Stars
@@ -88,7 +96,7 @@ const RepositoryItem = ({ item }) => {
               </View>
               <View style={styles.uniqueStatContainer}>
                   <Text>
-                      {item.forksCount}
+                      {forks}
                   </Text>
                   <Text>
                       Forks
