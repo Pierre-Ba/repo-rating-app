@@ -1,6 +1,6 @@
 import React from 'react';
 import Constants from 'expo-constants';
-import { Route, Switch, Redirect, NativeRouter } from 'react-router-native';
+import { Route, Switch, Redirect } from 'react-router-native';
 import { StyleSheet, View } from 'react-native';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';

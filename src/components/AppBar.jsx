@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Pressable, StyleSheet, Text } from 'react-native';
+import {  StyleSheet, Text, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Appbar } from 'react-native-paper';
 import { Link } from 'react-router-native';
@@ -14,21 +14,30 @@ const styles = StyleSheet.create({
       color: "#530ff1",
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-around'
+      
       
      
   },
   text: {
+    paddingRight: 20,
+    paddingLeft: 10,
     color: 'white',
     fontSize: 20,
     fontWeight: theme.fontWeights.bold 
-  }
+  },
+  scrollView: {
+    display: 'flex',
+    flexDirection: 'row',
+    
+    
+  }, 
+
 });
 
 const AppBar = () => {
   return (
-  
-      <Appbar.Header  style={styles.appBar} >
+    <Appbar.Header  style={styles.appBar} >
+        <ScrollView style={styles.scrollView} horizontal >
             
             
             <Link to="/">
@@ -37,15 +46,16 @@ const AppBar = () => {
            </Text>
           </Link>
           
-          
-            <Pressable onPressIn={() => console.log('pressed')}>
             <Link to="/signin" >
               <Text style={styles.text}>
             Sign In
             </Text>
             </Link>
-            </Pressable>
+            
+            
+         
           
+      </ScrollView>
       </Appbar.Header>
  
   );
