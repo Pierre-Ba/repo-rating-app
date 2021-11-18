@@ -1,9 +1,13 @@
 import React from 'react';
-import {  StyleSheet, Text, ScrollView } from 'react-native';
+import {  StyleSheet, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import Constants from 'expo-constants';
 import { Appbar } from 'react-native-paper';
 import { Link } from 'react-router-native';
 import theme from '../theme';
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -39,18 +43,21 @@ const AppBar = () => {
     <Appbar.Header  style={styles.appBar} >
         <ScrollView style={styles.scrollView} horizontal >
             
-            
-            <Link to="/">
-              <Text style={styles.text}>
+           
+            <Link to="/" component={TouchableWithoutFeedback} >
+              <Text style={styles.text} >
            Repositories
            </Text>
           </Link>
           
-            <Link to="/signin" >
+          
+         
+            <Link to="/signin" component={TouchableWithoutFeedback}>
               <Text style={styles.text}>
             Sign In
             </Text>
             </Link>
+           
             
             
          

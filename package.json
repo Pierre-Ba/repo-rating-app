@@ -20,7 +20,8 @@
     "react-native-paper": "^4.10.0",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "~0.13.12",
-    "react-router-native": "5.1"
+    "react-router-native": "5.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
