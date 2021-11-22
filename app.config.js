@@ -30,7 +30,8 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "env": process.env.ENV
+      "env": process.env.ENV,
+      "url": process.env.APOLLO_URI
     }
   }
 

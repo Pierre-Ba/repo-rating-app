@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TextInput,Text, Pressable } from 'react-native';
-
+import { View, StyleSheet, Text, Pressable } from 'react-native';
 import * as Yup from 'yup';
 import {Formik } from 'formik';
 import theme from '../theme';
 import FormikTextInput from './FormikTextInput';
+import useSignIn from '../hooks/useSignIn';
 
 
 
@@ -77,18 +77,28 @@ const styles = StyleSheet.create({
   */
 
 const SignIn = () => {
+  const [signIn] = useSignIn()
   
+  
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    
+
+    try {
+      const { data } = await signIn({username, password });
+      console.log('ACCESS TOKEN: ', data.authorize.accessToken);
+    } catch (error) {
+      console.log('ERROR IN CATCH ON SUBMIT', error);
+    }
+  }
 
   return (
 
     <Formik
         initialValues={{username: '', password: ''}}
         validationSchema={validationSchema}
-        onSubmit={ (values, {setSubmitting}) => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            
-        }}
+        onSubmit={onSubmit}
     >
     {formik => (
        <View style={styles.container} >
