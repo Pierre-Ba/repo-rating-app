@@ -1,5 +1,6 @@
-{
-  "expo": {
+ import 'dotenv/config';
+  
+  export default {
     "name": "repo-rating-app",
     "slug": "repo-rating-app",
     "version": "1.0.0",
@@ -27,6 +28,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "env": process.env.ENV
     }
   }
-}
+

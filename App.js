@@ -6,10 +6,13 @@ import Main from "./src/components/Main";
 import createApolloClient from "./src/utils/apolloClient";
 import { Provider as PaperProvider } from "react-native-paper";
 import { NativeRouter } from "react-router-native";
+import Constants from 'expo-constants';
+
 
 const apolloClient = createApolloClient();
 
 const App = () => {
+  console.log(Constants.manifest);
   return (
     <PaperProvider>
       <NativeRouter>
