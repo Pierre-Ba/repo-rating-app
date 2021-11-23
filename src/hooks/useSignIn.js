@@ -10,8 +10,7 @@ const useSignIn = () => {
     });
   
     const signIn = async ({ username, password }) => {
-      console.log('USERNAME IN THE SIGN IN FUNCTION', username);
-      console.log('PASSWORD IN THE SIGN IN FUNCTION', password);
+      
       const data = await mutate({ variables: { credentials: { username, password }}});
       return data
     };
