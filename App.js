@@ -9,11 +9,12 @@ import { NativeRouter } from "react-router-native";
 import AuthStorage from "./src/utils/authStorage";
 
 
+
 const authStorage = new AuthStorage();
 const apolloClient = createApolloClient(authStorage);
 
 const App = () => {
-  
+ 
   return (
     <PaperProvider>
       <NativeRouter>
