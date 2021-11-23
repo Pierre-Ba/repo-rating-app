@@ -5,8 +5,7 @@ import {Formik } from 'formik';
 import theme from '../theme';
 import FormikTextInput from './FormikTextInput';
 import useSignIn from '../hooks/useSignIn';
-
-
+import { useHistory } from "react-router-native";
 
 
 
@@ -78,6 +77,7 @@ const styles = StyleSheet.create({
 
 const SignIn = () => {
   const [signIn] = useSignIn()
+  let history = useHistory()
   
   
 
@@ -86,8 +86,11 @@ const SignIn = () => {
     
 
     try {
-      const { data } = await signIn({username, password });
+      const { data }  = await signIn({username, password });
       console.log('ACCESS TOKEN: ', data.authorize.accessToken);
+      if(data) {
+        history.push("/");
+      }
     } catch (error) {
       console.log('ERROR IN CATCH ON SUBMIT', error);
     }
