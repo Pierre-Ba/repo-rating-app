@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { Button, Card } from 'react-native-paper'
+import { Button, Card } from 'react-native-paper';
 
 
 const RepositoryItem = ({ item }) => {
 
     function kFormatter(num) {
-        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num);
     }
 
-    const stars = kFormatter(item.stargazersCount)
-    const forks = kFormatter(item.forksCount)
+    const stars = kFormatter(item.stargazersCount);
+    const forks = kFormatter(item.forksCount);
 
     const styles = StyleSheet.create({
         

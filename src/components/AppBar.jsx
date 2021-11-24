@@ -7,7 +7,7 @@ import theme from '../theme';
 import { AUTHORIZED_USER } from '../graphql/queries';
 import { useApolloClient, useQuery } from '@apollo/client';
 import useAuthStorage from '../hooks/useAuthStorage';
-import { ApolloClient } from '@apollo/client';
+
 
 
 
@@ -59,7 +59,7 @@ const AppBar = () => {
    event.preventDefault()
    const removedToken = await authStorage.removeAccessToken();
    console.log('REMOVED TOKEN', removedToken);
-   
+   console.log('DATA IN HANDLE SIGN OUT FUNC: ', data);
    apolloClient.resetStore();
 
  }
@@ -75,7 +75,7 @@ const AppBar = () => {
           </Link>
           
           
-            {data.authorizedUser !== null ? 
+            {(data !== undefined && data.authorizedUser !== null) ? 
             <Link to="/signout" component={TouchableWithoutFeedback}>
               <Text style={styles.text} onPress={handleSignOut}>
                 Sign Out
