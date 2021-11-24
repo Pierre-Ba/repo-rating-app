@@ -4,6 +4,10 @@ import Constants from 'expo-constants';
 import { Appbar } from 'react-native-paper';
 import { Link } from 'react-router-native';
 import theme from '../theme';
+import { AUTHORIZED_USER } from '../graphql/queries';
+import { useApolloClient, useQuery } from '@apollo/client';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { ApolloClient } from '@apollo/client';
 
 
 
@@ -39,6 +43,26 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { data, error, loading } = useQuery(AUTHORIZED_USER, {
+    onError: (error) => {
+      console.log('ERROR: ', error.message);
+    }
+  });
+
+  if (loading) {
+    <Text>loading...</Text>
+  }
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+
+ const handleSignOut = async (event) => {
+   event.preventDefault()
+   const removedToken = await authStorage.removeAccessToken();
+   console.log('REMOVED TOKEN', removedToken);
+   
+   apolloClient.resetStore();
+
+ }
   return (
     <Appbar.Header  style={styles.appBar} >
         <ScrollView style={styles.scrollView} horizontal >
@@ -51,13 +75,20 @@ const AppBar = () => {
           </Link>
           
           
-         
+            {data.authorizedUser !== null ? 
+            <Link to="/signout" component={TouchableWithoutFeedback}>
+              <Text style={styles.text} onPress={handleSignOut}>
+                Sign Out
+                </Text>
+                </Link>
+                :
             <Link to="/signin" component={TouchableWithoutFeedback}>
               <Text style={styles.text}>
             Sign In
             </Text>
+            
             </Link>
-           
+            }
             
             
          
