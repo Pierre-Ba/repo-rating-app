@@ -12,6 +12,21 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
+export const RepositoryListContainer = ({ repositories }) => {
+
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+  return (
+    <FlatList
+    data={repositoryNodes}
+    ItemSeparatorComponent={ItemSeparator}
+    renderItem={({ item }) => <RepositoryItem item={item} />}
+  />
+  );
+};
+
 const RepositoryList = () => {
   const { data, loading } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
@@ -26,16 +41,11 @@ const RepositoryList = () => {
 
 
 
-  const repositoryNodes = data
-    ? data.repositories.edges.map((edge) => edge.node)
-    : [];
+  
 
   return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem item={item} />}
-    />
+    <RepositoryListContainer repositories={data.repositories} />
+    
   );
 };
 
