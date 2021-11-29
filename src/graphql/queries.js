@@ -29,4 +29,12 @@ export const AUTHORIZED_USER = gql`
   }
 `;
 
-
+export const GET_REPOSITORY = gql `
+query repository($id: ID!){
+  repository(id: $id) {
+    id
+    fullName
+    url
+  }
+}
+`;

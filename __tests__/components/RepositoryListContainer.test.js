@@ -1,27 +1,10 @@
-/* eslint-disable jest/expect-expect */
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
-import RepositoryList from '../../src/components/RepositoryList';
-import { FlatList } from 'react-native';
-import RepositoryItem from '../../src/components/RepositoryItem';
-import { ItemSeparator } from '../../src/components/RepositoryList';
-import { render, componentTree } from '@testing-library/react-native';
 
-const RepositoryListContainer = ({ repositories }) => {
-    const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
-    : [];
 
-  return (
-    <FlatList
-    data={repositoryNodes}
-    ItemSeparatorComponent={ItemSeparator}
-    renderItem={({ item }) => <RepositoryItem  item={item} />}
-    testID="repo1"
-    
-  />
-  );
-};
+import { render } from '@testing-library/react-native';
+import { RepositoryListContainer } from '../../src/components/RepositoryList';
+
 
 describe('RepositoryList', () => {
     describe('RepositoryListContainer', () => {
@@ -70,12 +53,12 @@ describe('RepositoryList', () => {
         };
   
         // Add your test code here
-        const { debug, getByTestId, getByText } = render(<RepositoryListContainer repositories={repositories} />);
+        const { debug,  getByText } = render(<RepositoryListContainer repositories={repositories} />);
       
 
         debug();
 
-        expect(getByTestId('repo1')).toHaveProp('data');
+        
         expect(getByText('async-library/react-async')).toBeDefined();
         expect(getByText('jaredpalmer/formik')).toBeDefined();
         expect(repositories.edges.length).toBe(2);

@@ -9,6 +9,7 @@ import { useHistory } from "react-router-native";
 
 
 
+
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
@@ -55,46 +56,10 @@ const styles = StyleSheet.create({
       .required('Password is required')
 });
 
-  /*
 
-  const validate = values => {
-      const errors = {};
 
-      if (!values.username) {
-        errors.username = 'Required';
-      } else if (values.username.length > 15) {
-        errors.username = 'Must be 15 characters or less';
-      }
-
-      if (!values.password) {
-        errors.password = 'Required';
-      } else if (values.password.length < 7) {
-        errors.password = 'Must be at least 7 characters';
-      }
-  }
-
-  */
-
-const SignIn = () => {
-  const [signIn] = useSignIn()
-  let history = useHistory()
-  
-  
-
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-    
-
-    try {
-      const { data }  = await signIn({username, password });
-      console.log('ACCESS TOKEN: ', data.authorize.accessToken);
-      if(data) {
-        history.push("/");
-      }
-    } catch (error) {
-      console.log('ERROR IN CATCH ON SUBMIT', error);
-    }
-  }
+ export const SignInContainer = ({ onSubmit }) => {
+   
 
   return (
 
@@ -110,6 +75,7 @@ const SignIn = () => {
        name="username"
        type="text"
        placeholder="Username"
+       testID="username"
         />
         {console.log('FORMIK ERRORS', formik.errors)}
         
@@ -118,10 +84,15 @@ const SignIn = () => {
        name="password"
        type="text"
        placeholder="Password"
+       testID="password"
        secureTextEntry={true}
         />
         
-        <Pressable style={styles.button} type="submit" onPress={formik.handleSubmit}>
+        <Pressable 
+        style={styles.button} 
+        type="submit"
+        onPress={formik.handleSubmit}
+        testID="signIn">
             <Text style={styles.text}>
                 Sign In
             </Text>
@@ -135,6 +106,33 @@ const SignIn = () => {
 
       
     );
+ };
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  let history = useHistory();
+  
+ const onSubmit = async (values) => {
+    const { username, password } = values;
+    
+
+    try {
+      const { data }  = await signIn({username, password });
+      console.log('ACCESS TOKEN: ', data.authorize.accessToken);
+      if(data) {
+        history.push("/");
+      }
+    } catch (error) {
+      console.log('ERROR IN CATCH ON SUBMIT', error);
+    }
+  };
+
+
+  return (
+   
+    <SignInContainer   onSubmit={onSubmit} />
+   
+  );
   };
 
 

@@ -14,6 +14,8 @@ import AuthStorageContext from "./src/contexts/AuthStorageContext";
 const authStorage = new AuthStorage();
 const apolloClient = createApolloClient(authStorage);
 
+
+
 const App = () => {
  
   return (
@@ -21,9 +23,9 @@ const App = () => {
       <NativeRouter>
         <ApolloProvider client={apolloClient}>
           <AuthStorageContext.Provider value={authStorage}>
-          <SafeAreaView>
-            <Main />
-          </SafeAreaView>
+            <SafeAreaView>
+              <Main />
+            </SafeAreaView>
           </AuthStorageContext.Provider>
         </ApolloProvider>
       </NativeRouter>

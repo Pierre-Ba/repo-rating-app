@@ -43,26 +43,26 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data, error, loading } = useQuery(AUTHORIZED_USER, {
+  const { data, loading } = useQuery(AUTHORIZED_USER, {
     onError: (error) => {
       console.log('ERROR: ', error.message);
     }
   });
 
   if (loading) {
-    <Text>loading...</Text>
+    <Text>loading...</Text>;
   }
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
 
  const handleSignOut = async (event) => {
-   event.preventDefault()
+   event.preventDefault();
    const removedToken = await authStorage.removeAccessToken();
    console.log('REMOVED TOKEN', removedToken);
    console.log('DATA IN HANDLE SIGN OUT FUNC: ', data);
    apolloClient.resetStore();
 
- }
+ };
   return (
     <Appbar.Header  style={styles.appBar} >
         <ScrollView style={styles.scrollView} horizontal >
