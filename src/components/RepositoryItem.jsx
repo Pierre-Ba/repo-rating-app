@@ -24,8 +24,7 @@ const RepositoryItem = ({ item }) => {
 
   const handlePress = (event) => {
     event.preventDefault();
-    console.log('pressed');
-    console.log('ITEM.ID: ', item.id);
+    
     history.push("/repo/:id", {state: item});
     
 

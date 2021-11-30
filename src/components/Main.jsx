@@ -1,13 +1,10 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-native';
-import { useQuery } from '@apollo/client';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
 import SingleRepoView from './SingleRepoView';
 import AppBar from './AppBar';
-import { GET_REPOSITORIES } from '../graphql/queries';
-//import RepositoryItem from './RepositoryItem';
 
 
 
@@ -25,22 +22,10 @@ const styles = StyleSheet.create({
 
 
 const Main = () => {
-  const { data, loading } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-    onError: (error) => {
-      console.log("ERROR: ", error.message);
-    },
-  });
   
-  if (loading) {
-    return (
-    <Text>loading...</Text>
-    );
-  }
   
   //console.log('DATA: ', data);
-  let ids = data.repositories.edges.map((edge) => edge.node.id);
-  console.log('IDs :', ids);
+ 
   
   return (
     <View>
