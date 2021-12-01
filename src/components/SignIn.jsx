@@ -10,7 +10,7 @@ import { useHistory } from "react-router-native";
 
 
 
-const styles = StyleSheet.create({
+ export const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',

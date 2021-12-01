@@ -4,7 +4,9 @@ import { View } from 'react-native';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
 import SingleRepoView from './SingleRepoView';
+import CreateReview from './CreateReview';
 import AppBar from './AppBar';
+
 
 
 
@@ -38,7 +40,9 @@ const Main = () => {
           <SignIn />
         </Route>
         <Route path="/repo/:id/" component={SingleRepoView} />
-         
+         <Route path="/createReview" exact>
+         <CreateReview />
+         </Route>
           
         <Redirect to="/" />
       </Switch>

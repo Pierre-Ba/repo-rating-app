@@ -1,5 +1,5 @@
 import React from 'react';
-import {  StyleSheet, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import {  StyleSheet, Text, ScrollView, TouchableWithoutFeedback, View } from 'react-native';
 import Constants from 'expo-constants';
 import { Appbar } from 'react-native-paper';
 import { Link } from 'react-router-native';
@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
       
       
      
+  },
+  view: {
+    display: "flex",
+    flexDirection: "row"
   },
   text: {
     paddingRight: 20,
@@ -76,11 +80,20 @@ const AppBar = () => {
           
           
             {(data !== undefined && data.authorizedUser !== null) ? 
+            <View style={styles.view}>
             <Link to="/signout" component={TouchableWithoutFeedback}>
               <Text style={styles.text} onPress={handleSignOut}>
                 Sign Out
                 </Text>
                 </Link>
+              <Link to="/createReview" component={TouchableWithoutFeedback}>
+              <Text style={styles.text}>
+            Create Review
+            </Text>
+            
+            </Link>
+            </View>
+                
                 :
             <Link to="/signin" component={TouchableWithoutFeedback}>
               <Text style={styles.text}>
@@ -88,8 +101,12 @@ const AppBar = () => {
             </Text>
             
             </Link>
+
+            
             }
             
+          
+             
             
          
           

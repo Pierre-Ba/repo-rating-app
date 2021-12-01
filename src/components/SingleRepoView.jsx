@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/client';
 import { Button, Card } from "react-native-paper";
 import * as Linking from 'expo-linking';
 import { format } from "date-fns";
+import { useParams } from "react-router-native";
 
 const styles = StyleSheet.create({
   button: {
@@ -64,13 +65,17 @@ const styles = StyleSheet.create({
   },
 });
 
+
+
 export const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepoView = (props) => {
   const repoData  = props.history.location.state.state;
   console.log('DATA IN SINGLEREPOVIEW: ', repoData);
-  const id = repoData.id;
+  const id = repoData.repositoryId ? repoData.repositoryId : repoData.id;
   
+  const params = useParams();
+  console.log('PARAMS.id', params.id);
   
   const { data, loading } = useQuery(GET_REPOSITORY, {
     fetchPolicy: "cache-and-network",
@@ -79,6 +84,8 @@ const SingleRepoView = (props) => {
     },
     variables: {id}
   });
+
+  console.log('DATA FROM SINGLE REPO QUERY: ', data);
 
 
   
@@ -89,7 +96,21 @@ const SingleRepoView = (props) => {
     );
   }
   
-  
+  const RepositoryInfo = () => {
+    return (
+      <View>
+        <RepositoryItem item={data.repository} />
+        <Button
+          onPress={handlePress}
+          mode="contained"
+          style={styles.button}
+          color="blue"
+        >
+          Open in Github
+        </Button>
+      </View>
+    );
+  };
  
   const repoUrl  = data.repository.url;
   console.log('REPO URL: ', repoUrl);
@@ -125,10 +146,7 @@ const SingleRepoView = (props) => {
       </Card>
     );
   }; 
-    return (
-         <View>
-        <RepositoryItem item={repoData} />
-        <Button  onPress={handlePress} mode="contained" style={styles.button} color="blue">Open in Github</Button>
+    return ( 
    
         <FlatList 
          data={reviews}
@@ -137,9 +155,10 @@ const SingleRepoView = (props) => {
          keyExtractor={( reviews ) => { 
            return reviews.node.id;
          }}
+         ListHeaderComponent={() => <RepositoryInfo  />}
          />
-        
-        </View>
+     
+       
     );
 };
 

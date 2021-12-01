@@ -35,6 +35,12 @@ query repository($id: ID!){
     id
     fullName
     url
+    forksCount
+    language
+    ownerAvatarUrl
+    ratingAverage
+    reviewCount
+    stargazersCount
     reviews {
       edges {
         node {
