@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-native';
 import { View } from 'react-native';
 import SignIn from './SignIn';
+import SignUpView from './SignUpView';
 import RepositoryList from './RepositoryList';
 import SingleRepoView from './SingleRepoView';
 import CreateReview from './CreateReview';
@@ -38,6 +39,9 @@ const Main = () => {
         </Route>
         <Route path="/signin" exact>
           <SignIn />
+        </Route>
+        <Route path="/signup" exact>
+        <SignUpView />
         </Route>
         <Route path="/repo/:id/" component={SingleRepoView} />
          <Route path="/createReview" exact>

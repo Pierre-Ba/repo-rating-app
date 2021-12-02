@@ -7,7 +7,7 @@ import { styles } from './SignIn';
 import useCreateReview from '../hooks/useCreateReview';
 import { useHistory } from 'react-router-native';
 
-console.log('STYLES', styles);
+
 
 const validationSchema = Yup.object({
     ownerName: Yup.string()

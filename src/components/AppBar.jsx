@@ -95,15 +95,23 @@ const AppBar = () => {
             </View>
                 
                 :
+                <View style={styles.view}>
             <Link to="/signin" component={TouchableWithoutFeedback}>
               <Text style={styles.text}>
             Sign In
+            </Text>  
+            </Link>
+            <Link to="/signup" component={TouchableWithoutFeedback}>
+              <Text style={styles.text}>
+            Sign Up
             </Text>
             
             </Link>
+            </View>
 
             
             }
+            
             
           
              
