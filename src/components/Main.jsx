@@ -7,6 +7,7 @@ import RepositoryList from './RepositoryList';
 import SingleRepoView from './SingleRepoView';
 import CreateReview from './CreateReview';
 import AppBar from './AppBar';
+//import RepoPicker from './RepoPicker';
 
 
 
@@ -25,9 +26,7 @@ const styles = StyleSheet.create({
 
 
 const Main = () => {
-  
-  
-  //console.log('DATA: ', data);
+ 
  
   
   return (
@@ -35,7 +34,8 @@ const Main = () => {
       <AppBar />
       <Switch>
         <Route path="/" exact>
-          <RepositoryList />
+          <RepositoryList
+         />
         </Route>
         <Route path="/signin" exact>
           <SignIn />

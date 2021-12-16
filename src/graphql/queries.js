@@ -1,8 +1,10 @@
 import { gql } from "@apollo/client";
 
 export const GET_REPOSITORIES = gql`
-  query {
-    repositories {
+  query repositories ($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy, $searchKeyword: String) {
+    repositories (orderDirection: $orderDirection,
+      orderBy: $orderBy
+      searchKeyword: $searchKeyword) {
       edges {
         node {
           ownerAvatarUrl
@@ -81,3 +83,63 @@ query repository($id: ID!) {
   }
 }
 `;
+
+
+/*
+Query variables to sort the repositories query:
+
+query repositories($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy ) {
+repositories(orderDirection: $orderDirection,
+             orderBy: $orderBy) {
+  edges {
+    node {
+    ownerAvatarUrl
+          fullName
+          description
+          language
+          stargazersCount
+          forksCount
+          reviewCount
+          ratingAverage
+          id
+          reviews {
+      edges {
+        node {
+          rating
+          createdAt
+          
+        }
+      }
+    }
+}
+}
+}
+
+}
+
+/////////////////////////////
+Lowest Rated Repos
+{
+  "orderDirection": "ASC",
+  "orderBy": "RATING_AVERAGE"
+}
+/////////////////////////////
+
+/////////////////////////////
+Highest Rated Repos
+
+{
+  "orderDirection": "DESC",
+  "orderBy": "RATING_AVERAGE"
+}
+/////////////////////////////
+
+/////////////////////////////
+Latest Repos
+{
+  "orderDirection": "DESC",
+  "orderBy": "CREATED_AT"
+}
+/////////////////////////////
+
+*/
