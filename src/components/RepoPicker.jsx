@@ -13,12 +13,7 @@ const styles = StyleSheet.create({
 });
 
 const RepoPicker = ({ selectedValue, onValueChange }) => {
-  console.log('SELECTED VALUE IN REPO PICKER: ', selectedValue);
-  console.log('ON VALUE CHANGE FUNC IN REPO PICKER: ', onValueChange);
-
-
-
-
+  
 
     return (
        <Picker

@@ -1,17 +1,27 @@
 import React, {useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { FlatList, View, StyleSheet, Text } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { FlatList, View, StyleSheet, Text, TextInput } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import { GET_REPOSITORIES } from "../graphql/queries";
+import { useDebounce } from 'use-debounce';
 import RepoPicker from "./RepoPicker";
-//import useRepositories from "../hooks/useRepositories";
+
+
 
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  input: {
+    borderColor: 'black',
+    height: 40,
+    margin: 12,
+    borderWidth: 0.2,
+    padding: 10,
+    
+
+  }
 });
 
 export const ItemSeparator = () => <View style={styles.separator} />;
@@ -19,13 +29,23 @@ export const ItemSeparator = () => <View style={styles.separator} />;
  const RepositoryList = ({ state }) => {
  
   const [selectedRepo, setSelectedRepo] = useState('Latest Repos');
+  const [search, setSearch] = useState('');
+  const [value] = useDebounce(search, 200);
   
-  
+ console.log('DEBOUNCED VALUE: ', value);
+ console.log('DEBOUNCED VALUE.LENGTH: ', value.length);
 
 state = selectedRepo;
 console.log('STATE: ', state);
 
 
+const onSearchChange = (text) => {
+  console.log(text);
+  setSearch(text);
+  //console.log('SEARCH: ', search);
+};
+
+//console.log('SEARCH.LENGTH: ', search.length);
 
 const onValueChange = (itemValue) => {
   setSelectedRepo(itemValue);
@@ -50,35 +70,32 @@ const getPickedRepo = async (variablesForQuery) => {
   useEffect(() => {
     if(state === 'Highest Rated Repos') {
     getPickedRepo({ "orderDirection":"DESC", "orderBy":"RATING_AVERAGE" }); 
-    console.log('HIGHEST RATED FUNC CALLED');
+    //console.log('HIGHEST RATED FUNC CALLED');
     } 
     if(state === 'Lowest Rated Repos') {
       getPickedRepo({ "orderDirection":"ASC", "orderBy":"RATING_AVERAGE" });   
-      console.log('LOWEST RATED FUNC CALLED');
+      //console.log('LOWEST RATED FUNC CALLED');
    }  
     if(state === 'Latest Repos') {
      getPickedRepo({ "orderDirection":"DESC", "orderBy":"CREATED_AT" });
-     console.log('LATEST RATED FUNC CALLED');
+     //console.log('LATEST RATED FUNC CALLED');
    }
+   
   
   
   }, [state]);
 
-  
-    
-
-  
- 
+  useEffect(() => {
+    if (value.length >= 0) {
+      getPickedRepo({"searchKeyword": value });
+     //console.log('DEBOUNCED SEARCH FUNC CALLED');
+    }
+  }, [value]);
 
 
 if (loading) {
   return <Text>loading...</Text>;
 }
-
-
-
-
-
   
 
   const repositoryNodes = data.repositories
@@ -90,12 +107,20 @@ if (loading) {
     <View>
       <RepoPicker 
       selectedValue={selectedRepo}
-      onValueChange={onValueChange} />
-      <Searchbar />
+      onValueChange={onValueChange} 
+      />
+      <TextInput
+      style={styles.input}
+      placeholder="search for a repository"
+      defaultValue={value}
+      onChangeText={onSearchChange}
+      />
+      
     <FlatList
     data={repositoryNodes}
     ItemSeparatorComponent={ItemSeparator}
-    renderItem={({ item }) => <RepositoryItem item={item} />}
+    renderItem={({ item }) => <RepositoryItem item={item} 
+    />}
   />
   </View>
 

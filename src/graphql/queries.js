@@ -1,10 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_REPOSITORIES = gql`
-  query repositories ($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy, $searchKeyword: String) {
-    repositories (orderDirection: $orderDirection,
-      orderBy: $orderBy
-      searchKeyword: $searchKeyword) {
+  query repositories(
+    $orderDirection: OrderDirection
+    $orderBy: AllRepositoriesOrderBy
+    $searchKeyword: String
+  ) {
+    repositories(orderDirection: $orderDirection, orderBy: $orderBy, searchKeyword: $searchKeyword) {
       edges {
         node {
           ownerAvatarUrl
@@ -22,6 +24,19 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
+export const FILTER_REPOSITORIES = gql`
+  query repositories($searchKeyword: String) {
+    repositories(searchKeyword: $searchKeyword) {
+      edges {
+        node {
+          fullName
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const AUTHORIZED_USER = gql`
   query {
     authorizedUser {
@@ -31,59 +46,58 @@ export const AUTHORIZED_USER = gql`
   }
 `;
 
-export const GET_REPOSITORY = gql `
-query repository($id: ID!){
-  repository(id: $id) {
-    id
-    fullName
-    url
-    forksCount
-    language
-    ownerAvatarUrl
-    ratingAverage
-    reviewCount
-    stargazersCount
-    reviews {
-      edges {
-        node {
-          id
-          text
-          rating
-          createdAt
-          user {
+export const GET_REPOSITORY = gql`
+  query repository($id: ID!) {
+    repository(id: $id) {
+      id
+      fullName
+      url
+      forksCount
+      language
+      ownerAvatarUrl
+      ratingAverage
+      reviewCount
+      stargazersCount
+      reviews {
+        edges {
+          node {
             id
-            username
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
           }
         }
       }
     }
   }
-}
 `;
 
-export const GET_REVIEWS = gql `
-query repository($id: ID!) {
-  repository(id: $id) {
-    id
-    fullName
-    reviews {
-      edges {
-        node {
-          id
-          text
-          rating
-          createdAt
-          user {
+export const GET_REVIEWS = gql`
+  query repository($id: ID!) {
+    repository(id: $id) {
+      id
+      fullName
+      reviews {
+        edges {
+          node {
             id
-            username
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
           }
         }
       }
     }
   }
-}
 `;
-
 
 /*
 Query variables to sort the repositories query:
