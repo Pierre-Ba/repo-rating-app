@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+
+   
   container: {
     display: "flex",
     flexDirection: "row",
@@ -71,13 +73,13 @@ export const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepoView = (props) => {
   const repoData  = props.history.location.state.state;
-  console.log('DATA IN SINGLEREPOVIEW: ', repoData);
+  //console.log('DATA IN SINGLEREPOVIEW: ', repoData);
   const id = repoData.repositoryId ? repoData.repositoryId : repoData.id;
   
   const params = useParams();
-  console.log('PARAMS.id', params.id);
+  //console.log('PARAMS.id', params.id);
   
-  const { data, loading } = useQuery(GET_REPOSITORY, {
+  const { data, loading, fetchMore } = useQuery(GET_REPOSITORY, {
     fetchPolicy: "cache-and-network",
     onError: (error) => {
       console.log("ERROR: ", error.message);
@@ -85,10 +87,27 @@ const SingleRepoView = (props) => {
     variables: {id}
   });
 
-  console.log('DATA FROM SINGLE REPO QUERY: ', data);
+  //console.log('DATA FROM SINGLE REPO QUERY: ', data);
 
-
+  const handleFetchMore = (variables) => {
+    const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
   
+    if (!canFetchMore) {
+      return;
+    }
+  
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+  
+  const onEndReached = () => {
+    handleFetchMore({"first": 2, "after": data.repository.reviews.pageInfo.endCursor});
+    console.log("End of the list reached");
+  };
   
   if (loading) {
     return (
@@ -113,9 +132,9 @@ const SingleRepoView = (props) => {
   };
  
   const repoUrl  = data.repository.url;
-  console.log('REPO URL: ', repoUrl);
+  //console.log('REPO URL: ', repoUrl);
   const reviews = data.repository.reviews.edges;
-  console.log('REVIEWS: ', reviews);
+  //console.log('REVIEWS: ', reviews);
 
   const handlePress = (event) => {
     event.preventDefault();
@@ -124,7 +143,7 @@ const SingleRepoView = (props) => {
    
   const ReviewItem =({ item }) => {
    
-   console.log('ITEM IN REVIEW ITEM: ', item);
+   //console.log('ITEM IN REVIEW ITEM: ', item);
    const rev = item.node;
     
     const date = format(new Date(rev.createdAt), 'MM.dd.yyyy');
@@ -146,17 +165,23 @@ const SingleRepoView = (props) => {
       </Card>
     );
   }; 
+
+
     return ( 
-   
+        
         <FlatList 
          data={reviews}
+         style={{height: '85%'}}
+         onEndReached={onEndReached}
          ItemSeparatorComponent={ItemSeparator}
          renderItem={({ item }) => <ReviewItem key={item.node.id} item={item} />}
          keyExtractor={( reviews ) => { 
            return reviews.node.id;
          }}
          ListHeaderComponent={() => <RepositoryInfo  />}
+         
          />
+        
      
        
     );

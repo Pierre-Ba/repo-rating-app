@@ -32,11 +32,11 @@ export const ItemSeparator = () => <View style={styles.separator} />;
   const [search, setSearch] = useState('');
   const [value] = useDebounce(search, 200);
   
- console.log('DEBOUNCED VALUE: ', value);
- console.log('DEBOUNCED VALUE.LENGTH: ', value.length);
+ //console.log('DEBOUNCED VALUE: ', value);
+ //console.log('DEBOUNCED VALUE.LENGTH: ', value.length);
 
 state = selectedRepo;
-console.log('STATE: ', state);
+//console.log('STATE: ', state);
 
 
 const onSearchChange = (text) => {
@@ -52,12 +52,31 @@ const onValueChange = (itemValue) => {
   
 };
 
-const { data, loading, refetch} = useQuery(GET_REPOSITORIES, {
+
+
+const { data, loading, refetch, fetchMore} = useQuery(GET_REPOSITORIES, {
   fetchPolicy: "cache-and-network",
   onError: (error) => {
     console.log("ERROR: ", error.message);
   },
 });
+
+console.log('DATA FROM GET REPOS: ', data);
+
+const handleFetchMore = (variables) => {
+  const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+  if (!canFetchMore) {
+    return;
+  }
+
+  fetchMore({
+    variables: {
+      after: data.repositories.pageInfo.endCursor,
+      ...variables,
+    },
+  });
+};
 
 const getPickedRepo = async (variablesForQuery) => {
   const data = await refetch(variablesForQuery);
@@ -69,15 +88,15 @@ const getPickedRepo = async (variablesForQuery) => {
 
   useEffect(() => {
     if(state === 'Highest Rated Repos') {
-    getPickedRepo({ "orderDirection":"DESC", "orderBy":"RATING_AVERAGE" }); 
+    getPickedRepo({ "orderDirection":"DESC", "orderBy":"RATING_AVERAGE", "first": 8}); 
     //console.log('HIGHEST RATED FUNC CALLED');
     } 
     if(state === 'Lowest Rated Repos') {
-      getPickedRepo({ "orderDirection":"ASC", "orderBy":"RATING_AVERAGE" });   
+      getPickedRepo({ "orderDirection":"ASC", "orderBy":"RATING_AVERAGE", "first": 8});   
       //console.log('LOWEST RATED FUNC CALLED');
    }  
     if(state === 'Latest Repos') {
-     getPickedRepo({ "orderDirection":"DESC", "orderBy":"CREATED_AT" });
+     getPickedRepo({ "orderDirection":"DESC", "orderBy":"CREATED_AT", "first": 8});
      //console.log('LATEST RATED FUNC CALLED');
    }
    
@@ -96,6 +115,11 @@ const getPickedRepo = async (variablesForQuery) => {
 if (loading) {
   return <Text>loading...</Text>;
 }
+
+const onEndReached = () => {
+handleFetchMore({"first": 8, "after": data.repositories.pageInfo.endCursor});
+  console.log('You have reached the end of the list');
+};
   
 
   const repositoryNodes = data.repositories
@@ -104,7 +128,7 @@ if (loading) {
 
   return (
    
-    <View>
+    <View >
       <RepoPicker 
       selectedValue={selectedRepo}
       onValueChange={onValueChange} 
@@ -118,7 +142,9 @@ if (loading) {
       
     <FlatList
     data={repositoryNodes}
+    style={{height: '70%'}}
     ItemSeparatorComponent={ItemSeparator}
+    onEndReached={onEndReached}
     renderItem={({ item }) => <RepositoryItem item={item} 
     />}
   />
