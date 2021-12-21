@@ -6,6 +6,7 @@ import SignUpView from './SignUpView';
 import RepositoryList from './RepositoryList';
 import SingleRepoView from './SingleRepoView';
 import CreateReview from './CreateReview';
+import MyReviews from './MyReviews';
 import AppBar from './AppBar';
 //import RepoPicker from './RepoPicker';
 
@@ -47,6 +48,9 @@ const Main = () => {
          <Route path="/createReview" exact>
          <CreateReview />
          </Route>
+         <Route path="/myReviews" exact>
+           <MyReviews/>
+           </Route>
           
         <Redirect to="/" />
       </Switch>

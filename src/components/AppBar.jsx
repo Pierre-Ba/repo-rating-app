@@ -81,17 +81,22 @@ const AppBar = () => {
           
             {(data !== undefined && data.authorizedUser !== null) ? 
             <View style={styles.view}>
-            <Link to="/signout" component={TouchableWithoutFeedback}>
-              <Text style={styles.text} onPress={handleSignOut}>
-                Sign Out
-                </Text>
-                </Link>
               <Link to="/createReview" component={TouchableWithoutFeedback}>
               <Text style={styles.text}>
             Create Review
             </Text>
             
             </Link>
+            <Link to="/myReviews" component={TouchableWithoutFeedback}>
+              <Text style={styles.text}>
+                My Reviews
+              </Text>
+            </Link>
+            <Link to="/signout" component={TouchableWithoutFeedback}>
+              <Text style={styles.text} onPress={handleSignOut}>
+                Sign Out
+                </Text>
+                </Link>
             </View>
                 
                 :

@@ -7,9 +7,8 @@ import { useQuery } from '@apollo/client';
 import { Button, Card } from "react-native-paper";
 import * as Linking from 'expo-linking';
 import { format } from "date-fns";
-import { useParams } from "react-router-native";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   button: {
     width: "auto",
     marginTop: 10,
@@ -71,12 +70,38 @@ const styles = StyleSheet.create({
 
 export const ItemSeparator = () => <View style={styles.separator} />;
 
+export const ReviewItem =({ item }) => {
+   
+  //console.log('ITEM IN REVIEW ITEM: ', item);
+  const rev = item.node;
+   
+   const date = format(new Date(rev.createdAt), 'MM.dd.yyyy');
+   
+  
+ 
+   return (
+     <Card>
+       <View style={styles.container}>  
+         <View style={styles.ratingContainer}>
+         <Text style={styles.rating}>{rev.rating}</Text>
+         </View>
+         <View style={styles.reviewContainer}>
+           <Text style={styles.username}>{rev.user.username}</Text>
+           <Text style={styles.secondaryText}>{date}</Text>
+           <Text>{rev.text}</Text>
+           </View>
+         </View>
+     </Card>
+   );
+ }; 
+
+
 const SingleRepoView = (props) => {
   const repoData  = props.history.location.state.state;
   //console.log('DATA IN SINGLEREPOVIEW: ', repoData);
   const id = repoData.repositoryId ? repoData.repositoryId : repoData.id;
   
-  const params = useParams();
+  //const params = useParams();
   //console.log('PARAMS.id', params.id);
   
   const { data, loading, fetchMore } = useQuery(GET_REPOSITORY, {
@@ -141,31 +166,7 @@ const SingleRepoView = (props) => {
     Linking.openURL(repoUrl);
   };
    
-  const ReviewItem =({ item }) => {
-   
-   //console.log('ITEM IN REVIEW ITEM: ', item);
-   const rev = item.node;
-    
-    const date = format(new Date(rev.createdAt), 'MM.dd.yyyy');
-    
-   
   
-    return (
-      <Card>
-        <View style={styles.container}>  
-          <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>{rev.rating}</Text>
-          </View>
-          <View style={styles.reviewContainer}>
-            <Text style={styles.username}>{rev.user.username}</Text>
-            <Text style={styles.secondaryText}>{date}</Text>
-            <Text>{rev.text}</Text>
-            </View>
-          </View>
-      </Card>
-    );
-  }; 
-
 
     return ( 
         

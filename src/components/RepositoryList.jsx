@@ -36,7 +36,7 @@ export const ItemSeparator = () => <View style={styles.separator} />;
  //console.log('DEBOUNCED VALUE.LENGTH: ', value.length);
 
 state = selectedRepo;
-//console.log('STATE: ', state);
+console.log('STATE: ', state);
 
 
 const onSearchChange = (text) => {
@@ -61,7 +61,7 @@ const { data, loading, refetch, fetchMore} = useQuery(GET_REPOSITORIES, {
   },
 });
 
-console.log('DATA FROM GET REPOS: ', data);
+//console.log('DATA FROM GET REPOS: ', data);
 
 const handleFetchMore = (variables) => {
   const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;

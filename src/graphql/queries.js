@@ -50,12 +50,62 @@ export const FILTER_REPOSITORIES = gql`
 `;
 
 export const AUTHORIZED_USER = gql`
-  query {
+  query getAuthorizedUser($includeReviews: Boolean = false){
     authorizedUser {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            id
+            userId
+            text
+            repository {
+              name
+            }
+            createdAt
+            rating
+          }
+          cursor
+        }
+        pageInfo {
+          hasNextPage
+          startCursor
+          endCursor
+        }
+      }
     }
   }
+`;
+
+export const AUTHORIZED_USER_REVIEWS = gql`
+query getAuthorizedUser($includeReviews: Boolean = true){
+  authorizedUser {
+    id
+    username
+    reviews @include(if: $includeReviews) {
+      edges {
+        node {
+          id
+          repository {
+            name
+          }
+          userId
+          rating
+          text
+          createdAt
+         
+        }
+        cursor
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+}
 `;
 
 export const GET_REPOSITORY = gql`
