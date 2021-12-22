@@ -98,9 +98,9 @@ export const ReviewItem =({ item }) => {
 
 const SingleRepoView = (props) => {
   const repoData  = props.history.location.state.state;
-  //console.log('DATA IN SINGLEREPOVIEW: ', repoData);
-  const id = repoData.repositoryId ? repoData.repositoryId : repoData.id;
-  
+  console.log('DATA IN SINGLEREPOVIEW: ', repoData);
+  const id = repoData.node ? repoData.node.repository.id : repoData.id;
+  console.log('ID OF SINGLE REPO: ', id);
   //const params = useParams();
   //console.log('PARAMS.id', params.id);
   
@@ -112,7 +112,13 @@ const SingleRepoView = (props) => {
     variables: {id}
   });
 
-  //console.log('DATA FROM SINGLE REPO QUERY: ', data);
+  if (loading) {
+    return (
+    <Text>loading...</Text>
+    );
+  }
+
+  console.log('DATA FROM SINGLE REPO QUERY: ', data);
 
   const handleFetchMore = (variables) => {
     const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
@@ -134,11 +140,7 @@ const SingleRepoView = (props) => {
     console.log("End of the list reached");
   };
   
-  if (loading) {
-    return (
-    <Text>loading...</Text>
-    );
-  }
+  
   
   const RepositoryInfo = () => {
     return (

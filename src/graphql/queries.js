@@ -89,6 +89,7 @@ query getAuthorizedUser($includeReviews: Boolean = true){
           id
           repository {
             name
+            id
           }
           userId
           rating

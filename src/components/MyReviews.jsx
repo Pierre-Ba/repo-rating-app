@@ -1,9 +1,11 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
+import { useHistory } from "react-router-native";
 import { AUTHORIZED_USER_REVIEWS } from "../graphql/queries";
-import { FlatList, Text, View, StyleSheet } from "react-native";
+import { FlatList, Text, View, StyleSheet, Pressable, Alert } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { ItemSeparator } from "./SingleRepoView";
+import useDeleteReview from "../hooks/useDeleteReview";
 
 import { format } from "date-fns";
 
@@ -82,7 +84,34 @@ const ReviewItem =({ item }) => {
      const date = format(new Date(rev.createdAt), 'MM.dd.yyyy');
      
     //console.log('rev: ', rev);
-   // console.log('id: ', item.node.id);
+    console.log('id: ', item.node.id);
+
+   let history = useHistory();
+const [deleteReview] = useDeleteReview();
+  
+
+   const handleViewRepoPress = (event) => {
+     event.preventDefault();
+     console.log('pressed view repository');
+     history.push("/repo/:id", {state: item});
+   };
+
+   const handleDeleteRepo = (event) => {
+     event.preventDefault();
+     Alert.alert("Delete Review", 'Sure you want to delete?', [{
+       text: 'YES',
+       onPress: () => {
+         deleteReview(item.node.id);
+         
+     }
+     },
+     {
+       text: 'NO',
+       onPress: () => console.log('NO pressed')
+     },
+    ]);
+     
+   };
    
      return (
        <Card>
@@ -97,8 +126,12 @@ const ReviewItem =({ item }) => {
              </View>
            </View>
            <View style={styles.buttonContainer}>
+                 <Pressable onPress={handleViewRepoPress}> 
                  <Button mode="contained" color="blue">View Repository</Button>
+                 </Pressable>
+                 <Pressable onPress={handleDeleteRepo}> 
                  <Button mode="contained" color="red">Delete Review</Button>
+                 </Pressable>
              </View>
        </Card>
      );
@@ -111,21 +144,31 @@ const MyReviews = () => {
         onError: (error) => {
           console.log("ERROR: ", error.message);
         },
+       
         
       });
 
-    //console.log('DATA FROM AUTH USER QUERY', data.authorizedUser.reviews.edges);
-    const reviews = data.authorizedUser.reviews.edges;
-
-    if (loading) {
+      if (loading) {
         return (
         <Text>loading...</Text>
         );
       }
 
+    //console.log('DATA FROM AUTH USER QUERY', data.authorizedUser.reviews.edges);
+    let reviews = data.authorizedUser.reviews.edges;
+
+
+    /*
+    useEffect(() => {
+      if(reviews)
+    })
+    */
+
+    
+
     return(
         <FlatList 
-       data={reviews}
+        data={reviews}
         style={{height: '85%'}}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => <ReviewItem key={item.node.id} item={item} />}
